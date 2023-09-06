@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 import org.jboss.resteasy.plugins.providers.jaxb.AbstractJAXBProvider;
 
 @Provider
-@Consumes()
+@Consumes(value = {MediaType.WILDCARD})
 public class ServiceResponseJaxbProvider extends AbstractJAXBProvider<ServiceResponse> {
 
   @Override

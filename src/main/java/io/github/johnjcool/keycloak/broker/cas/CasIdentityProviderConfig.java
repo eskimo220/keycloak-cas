@@ -8,8 +8,8 @@ public class CasIdentityProviderConfig extends IdentityProviderModel {
 
   private static final String DEFAULT_CAS_LOGIN_SUFFIX = "login";
   private static final String DEFAULT_CAS_LOGOUT_SUFFIX = "logout";
-  private static final String CAS_SERVICE_VALIDATE_SUFFIX = "serviceValidate";
-  private static final String CAS_3_PROTOCOL_PREFIX = "p3";
+  private static final String DEFAULT_CAS_SERVICE_VALIDATE_SUFFIX = "serviceValidate";
+  private static final String DEFAULT_CAS_3_PROTOCOL_PREFIX = "p3";
 
   public CasIdentityProviderConfig() {
     super();
@@ -27,12 +27,20 @@ public class CasIdentityProviderConfig extends IdentityProviderModel {
     return getConfig().get("casServerUrlPrefix");
   }
 
+  public void setCasServerProtocol3(final boolean casServerProtocol3) {
+    getConfig().put("casServerProtocol3", String.valueOf(casServerProtocol3));
+  }
+
+  public boolean isCasServerProtocol3() {
+    return Boolean.valueOf(getConfig().get("casServerProtocol3"));
+  }
+
   public void setGateway(final boolean gateway) {
     getConfig().put("gateway", String.valueOf(gateway));
   }
 
   public boolean isGateway() {
-    return Boolean.parseBoolean(getConfig().get("gateway"));
+    return Boolean.valueOf(getConfig().get("gateway"));
   }
 
   public void setRenew(final boolean renew) {
@@ -40,7 +48,7 @@ public class CasIdentityProviderConfig extends IdentityProviderModel {
   }
 
   public boolean isRenew() {
-    return Boolean.parseBoolean(getConfig().get("renew"));
+    return Boolean.valueOf(getConfig().get("renew"));
   }
 
   public String getCasServerLoginUrl() {
@@ -52,8 +60,13 @@ public class CasIdentityProviderConfig extends IdentityProviderModel {
   }
 
   public String getCasServiceValidateUrl() {
-    return String.format(
-        "%s/%s/%s",
-        getConfig().get("casServerUrlPrefix"), CAS_3_PROTOCOL_PREFIX, CAS_SERVICE_VALIDATE_SUFFIX);
+    return isCasServerProtocol3()
+        ? String.format(
+            "%s/%s/%s",
+            getConfig().get("casServerUrlPrefix"),
+            DEFAULT_CAS_3_PROTOCOL_PREFIX,
+            DEFAULT_CAS_SERVICE_VALIDATE_SUFFIX)
+        : String.format(
+            "%s/%s", getConfig().get("casServerUrlPrefix"), DEFAULT_CAS_SERVICE_VALIDATE_SUFFIX);
   }
 }

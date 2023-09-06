@@ -59,13 +59,18 @@ public class CasIdentityProviderFactory extends AbstractIdentityProviderFactory<
         .name("renew")
         .type(ProviderConfigProperty.BOOLEAN_TYPE)
         .label("CAS renew")
-        .helpText("Force users to reauthenticate.")
+        .helpText(
+            "If enabled, renew=true will be sent to the CAS server, and users will be forced to "
+                + "reauthenticate.")
         .add()
         .property()
         .name("gateway")
         .type(ProviderConfigProperty.BOOLEAN_TYPE)
         .label("CAS gateway")
-        .helpText("Do not force users to authenticate if they are not already authenticated.")
+        .helpText(
+            "Enables the CAS server gateway feature. Users who are logged out will not be automatically "
+                + "redirected to the login page. There is no change in behavior for users who are already "
+                + "authenticated.")
         .add()
         .build();
   }
